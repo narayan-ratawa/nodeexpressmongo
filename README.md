@@ -23,4 +23,8 @@ In addition I also added schema validation .
 
 
 NOTE: This is my first project of Node Express MongoDB
+
+TODO: oAuth 2.0(may be), eslint setup
+Feature TODO : OTP verification, User Subscription Management, change Password
+
 Thanks
