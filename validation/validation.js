@@ -5,7 +5,9 @@ const schemaUser = {
     email : Joi.string().email().required(),
     mobile : Joi.string().min(10).required(),
     password : Joi.string().min(6).required(),
-    isWorking : Joi.boolean().required()
+    isWorking : Joi.boolean().required(),
+    session:Joi.string().required(),
+    otp:Joi.string().required()
 }
 
 const schemaLogin = {

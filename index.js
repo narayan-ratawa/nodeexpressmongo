@@ -8,7 +8,6 @@ const auth = require('./route/auth')
 
 app.use(bodyParser.json())
 
-//TODO:need to add env pack
 //DB connection
 mongoose.connect(process.env.CONNECTION_URL, {
     useNewUrlParser: true,
@@ -24,10 +23,7 @@ app.use("/auth",auth)
 
 //sample code
 app.get("/", (req, res) => {
-    res.send("sample")
-})
-app.get("/posts", (req, res) => {
-    res.send("POST")
+    res.send("App Is Working...")
 })
 
 //run app on port

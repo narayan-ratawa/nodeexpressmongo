@@ -3,6 +3,7 @@ const { validateLogin } = require("../validation/validation")
 const User = require("../models/User")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const axios = require('axios')
 //Method to register user
 router.post("/login", async (req, res) => {
     //validate data
@@ -25,5 +26,24 @@ router.post("/login", async (req, res) => {
         res.send(error)
     }
 })
+
+//TO send OTP to given mobile number
+router.post("/sendOTP",async (req,res) => {
+    const url = `https://2factor.in/API/V1/${process.env.SMS_API_SECRET}/SMS/${req.body.mobile}/AUTOGEN`
+    axios.get(url)
+        .then(response => {
+            if(response.status == 200){
+                res.json(response.data)
+            }
+            else{
+                res.json({error:"SMS service error."})
+            }
+            
+        })
+        .catch(error => {
+            res.json(error)
+        });
+})
+
 
 module.exports = router;

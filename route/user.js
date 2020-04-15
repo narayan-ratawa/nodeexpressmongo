@@ -1,11 +1,12 @@
 const router = require("express").Router();
 const User = require('../models/User')
+const axios = require('axios')
 const bcryptjs = require("bcryptjs")
 const { validateUser } = require("../validation/validation")
 const validToken = require("./verifyToken")
 
 //Method to get all users
-router.get("/",validToken, async (req, res) => {
+router.get("/", validToken, async (req, res) => {
     try {
         const users = await User.find()
         res.send(users)
@@ -38,9 +39,19 @@ router.post("/", async (req, res) => {
         isWorking: req.body.isWorking,
     })
 
+//verify OTP before store data into DB
     try {
-        const data = await user.save()
-        res.json(data)
+        const verifyOTP = await axios.get(`https://2factor.in/API/V1/${process.env.SMS_API_SECRET}/SMS/VERIFY/${req.body.session}/${req.body.otp}`);
+
+        if (verifyOTP.status == 200) {
+            const data = await user.save()
+            res.json(data)
+        }
+        else {
+            // const data = await user.save()
+            res.json({ error: "Mobile Number Verification " })
+        }
+
     } catch (error) {
         res.json(error)
     }
